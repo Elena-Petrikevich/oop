@@ -164,7 +164,6 @@ async def delete_todo_list(todo_list_id: int, db: AsyncSession = Depends(get_db)
 
 @app.post("/items/", response_model=ItemResponse)
 async def create_item(item: ItemCreate, db: AsyncSession = Depends(get_db)):
-    # Check if todo_list exists and not deleted
     stmt = select(TodoList).where(TodoList.id == item.todo_list_id, TodoList.deleted_at == None)
     result = await db.execute(stmt)
     todo_list = result.scalar_one_or_none()
